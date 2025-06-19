@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch học Ôn thi Đội tuyển HSG Quốc gia - THPT Chu Văn An</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons (e.g., sun, moon, calendar) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Import Google Fonts for Inter and Be Vietnam Pro to ensure full Unicode support */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+
+        /* Define custom colors and font for light mode */
+        :root {
+            --color-primary-navy: #0D3D6E; /* Xanh Navy đậm */
+            --color-secondary-white-milk: #F8F8F8; /* Trắng sữa */
+            --color-accent-silver: #D1D5DB; /* Xám bạc */
+            --color-text-dark: #374151; /* Xám đậm cho chữ */
+            --color-text-light: #6B7280; /* Xám nhạt hơn cho chữ */
+            --color-background: #F3F4F6; /* Nền nhẹ */
+            --color-card-background: #FFFFFF; /* Nền card */
+            --color-border: #E5E7EB; /* Màu đường viền mặc định */
+        }
+
+        /* Dark mode colors */
+        html.dark {
+            --color-primary-navy: #1A4D7E; /* Xanh Navy đậm hơn trong dark mode */
+            --color-secondary-white-milk: #1F2937; /* Đổi trắng sữa thành xám tối */
+            --color-accent-silver: #4B5563; /* Xám bạc đậm hơn */
+            --color-text-dark: #E5E7EB; /* Trắng sáng cho chữ */
+            --color-text-light: #D1D5DB; /* Trắng nhạt hơn cho chữ */
+            --color-background: #111827; /* Nền rất tối */
+            --color-card-background: #1F2937; /* Nền card tối */
+            --color-border: #374151; /* Màu đường viền tối */
+        }
+
+        body {
+            font-family: 'Inter', 'Be Vietnam Pro', sans-serif; /* Added Be Vietnam Pro as robust fallback */
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* General element styling with smooth transitions */
+        .card {
+            background-color: var(--color-card-background);
+            /* Updated border for light mode */
+            border: 1px solid var(--color-border); /* Default border from variable */
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Override border color for light mode cards to be more blue-tinted */
+        html:not(.dark) .card {
+            border-color: #E0E7FF; /* blue-100 for light mode */
+        }
+
+        .card-hover-transition:hover {
+            transform: translateY(-8px); /* Lift effect for premium feel */
+            /* Enhanced shadow for light mode using a subtle blue tint */
+            box-shadow: 0 15px 25px -5px rgba(13, 61, 110, 0.15), 0 6px 10px -3px rgba(13, 61, 110, 0.08);
+        }
+        html.dark .card-hover-transition:hover {
+            box-shadow: 0 15px 25px -5px rgba(26, 77, 126, 0.3), 0 6px 10px -3px rgba(26, 77, 126, 0.15); /* Dark mode shadow with navy tint, slightly reduced opacity for subtlety */
+        }
+
+        /* Timeline vertical line */
+        .timeline-line {
+            background-color: var(--color-accent-silver);
+            transition: background-color 0.3s ease;
+        }
+        html.dark .timeline-line {
+            background-color: var(--color-primary-navy); /* Darker line in dark mode */
+        }
+
+        /* Timeline dot */
+        .timeline-dot {
+            background-color: var(--color-primary-navy);
+            border-color: var(--color-card-background);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        html.dark .timeline-dot {
+            background-color: var(--color-accent-silver); /* Lighter dot in dark mode */
+            border-color: var(--color-card-background);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-background);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-accent-silver);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-primary-navy);
+        }
+        html.dark ::-webkit-scrollbar-track {
+            background: #0f172a; /* Darker track for dark mode */
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: var(--color-primary-navy); /* Navy thumb for dark mode */
+        }
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: #0A3258; /* Even darker navy on hover */
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: var(--color-primary-navy);
+            color: var(--color-secondary-white-milk);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0A3258; /* Slightly darker navy on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        /* Tailwind animations for header */
+        @keyframes fade-in-down {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 0.6s ease-out forwards;
+        }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+
+        @keyframes fade-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .animate-fade-in-left {
+            animation: fade-in-left 0.6s ease-out forwards;
+        }
+
+        @keyframes fade-in-right {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .animate-fade-in-right {
+            animation: fade-in-right 0.6s ease-out forwards;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-300 selection:text-white">
+    <div class="min-h-screen flex flex-col items-center py-10 px-4">
+        <!-- Dark Mode Toggle Button -->
+        <button id="theme-toggle" class="fixed top-6 right-6 p-3 rounded-full shadow-lg z-50 card hover:rotate-6 active:scale-95 transition-all duration-300">
+            <i class="fas fa-sun text-xl text-yellow-500 dark:hidden"></i>
+            <i class="fas fa-moon text-xl text-blue-300 hidden dark:inline-block"></i>
+        </button>
+
+        <!-- Header Section -->
+        <header class="w-full max-w-4xl card shadow-lg rounded-3xl p-8 mb-10 text-center card-hover-transition">
+            <div class="flex flex-col items-center mb-6">
+                <!-- School Logo -->
+                <img src="http://c3chuvanan.dongthap.edu.vn/upload/31121/20240826/Logo-removebg-preview_ce552.png" alt="Logo THPT Chu Văn An" class="w-24 h-24 rounded-full mb-5 shadow-xl border-4 border-blue-200 dark:border-blue-900 animate-pulse-slow">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-900 dark:text-blue-200 mb-3 leading-tight tracking-tight">
+                    <span class="block animate-fade-in-down">Lịch học Ôn thi</span>
+                    <span class="block animate-fade-in-down animation-delay-200">Đội tuyển Học sinh giỏi Quốc gia</span>
+                </h1>
+                <h2 class="text-xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-300 mt-2 animate-fade-in-up animation-delay-400">
+                    THPT Chu Văn An - 2025
+                </h2>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-lg sm:text-xl font-medium leading-relaxed animate-fade-in-up animation-delay-600">
+                Chinh phục tri thức, khẳng định bản thân!
+            </p>
+        </header>
+
+        <!-- Progress and Countdown Section -->
+        <section class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="card p-6 rounded-2xl shadow-md flex items-center justify-between animate-fade-in-left card-hover-transition">
+                <div class="flex items-center">
+                    <i class="fas fa-award text-3xl text-yellow-600 mr-4"></i>
+                    <div>
+                        <p class="text-lg text-gray-700 dark:text-gray-400">Tiến độ hoàn thành:</p>
+                        <p id="progress-display" class="text-3xl font-bold text-blue-800 dark:text-blue-300">0/15 buổi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-6 rounded-2xl shadow-md flex items-center justify-between animate-fade-in-right card-hover-transition">
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-3xl text-green-600 mr-4"></i>
+                    <div>
+                        <p class="text-lg text-gray-700 dark:text-gray-400">Buổi học tiếp theo sau:</p>
+                        <p id="countdown-display" class="text-3xl font-bold text-blue-800 dark:text-blue-300">Đang cập nhật...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section - Schedule Display -->
+        <main class="w-full max-w-4xl card shadow-lg rounded-3xl p-8">
+            <h3 class="text-3xl sm:text-4xl font-bold text-blue-800 dark:text-blue-200 mb-8 text-center animate-fade-in-up">
+                Thời khóa biểu chi tiết
+            </h3>
+
+            <div id="schedule-list" class="relative pl-6 sm:pl-10">
+                <!-- Timeline vertical line -->
+                <div class="timeline-line absolute left-3 sm:left-4 top-0 bottom-0 w-1 rounded-full"></div>
+                <!-- Schedule items will be inserted here by JavaScript -->
+            </div>
+
+            <div class="mt-10 text-center text-gray-700 dark:text-gray-400 text-lg font-medium">
+                <p>Địa điểm: <span class="font-semibold text-blue-800 dark:text-blue-300">Phòng vi tính - Trường THPT Chu Văn An</span></p>
+                <p class="mt-2">Chúc các em ôn luyện hiệu quả và gặt hái nhiều thành công!</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to set or remove dark mode class and save preference
+            const htmlElement = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            const userPrefersDark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+            if (userPrefersDark) {
+                htmlElement.classList.add('dark');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                if (htmlElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            const scheduleData = [
+                {
+                    date: '2025-06-28', // HIPAA-MM-DD format for easier Date parsing
+                    dayOfWeek: 'Thứ Bảy',
+                    time: '08:00 - 11:00',
+                    topic: 'Chuyên đề 1: Nền tảng thi chọn Đội tuyển HSG Quốc gia',
+                    notes: 'Ôn tập lại các kiến thức nền tảng phục vụ cho các chuyên đề sau.'
+                },
+                {
+                    date: '2025-06-29',
+                    dayOfWeek: 'Chủ Nhật',
+                    time: '14:00 - 17:00',
+                    topic: 'Chuyên đề 2: Đại số Tổ hợp',
+                    notes: 'Học về các phương pháp đếm và nguyên lý Dirichlet. Bài tập nhóm.'
+                },
+                {
+                    date: '2025-07-01',
+                    dayOfWeek: 'Thứ Ba',
+                    time: '08:00 - 11:00',
+                    topic: 'Chuyên đề 3: Hình học phẳng nâng cao',
+                    notes: 'Các định lý và tính chất liên quan đến đường tròn và tam giác. Mang thước kẻ, compa.'
+                },
+                {
+                    date: '2025-07-03',
+                    dayOfWeek: 'Thứ Năm',
+                    time: '14:00 - 17:00',
+                    topic: 'Chuyên đề 4: Số học và Đồng dư',
+                    notes: 'Lý thuyết số cơ bản và ứng dụng. Có giáo viên khách mời.'
+                },
+                {
+                    date: '2025-07-05',
+                    dayOfWeek: 'Thứ Bảy',
+                    time: '08:00 - 11:00',
+                    topic: 'Chuyên đề 5: Phương trình và Bất phương trình',
+                    notes: 'Các kỹ thuật giải và chứng minh. Ôn lại kiến thức cũ.'
+                },
+                {
+                    date: '2025-07-06',
+                    dayOfWeek: 'Chủ Nhật',
+                    time: '14:00 - 17:00',
+                    topic: 'Chuyên đề 6: Bất đẳng thức',
+                    notes: 'Các phương pháp chứng minh bất đẳng thức cổ điển. Thực hành giải đề.'
+                },
+                {
+                    date: '2025-07-08',
+                    dayOfWeek: 'Thứ Ba',
+                    time: '08:00 - 11:00',
+                    topic: 'Chuyên đề 7: Dãy số và Quan hệ truy hồi',
+                    notes: 'Tìm công thức tổng quát và tính chất của dãy số. Lưu ý công thức Fibonnaci.'
+                },
+                {
+                    date: '2025-07-10',
+                    dayOfWeek: 'Thứ Năm',
+                    time: '14:00 - 17:00',
+                    topic: 'Chuyên đề 8: Hàm số và Đồ thị',
+                    notes: 'Khảo sát hàm số và các bài toán liên quan. Sử dụng phần mềm đồ thị.'
+                },
+                {
+                    date: '2025-07-12',
+                    dayOfWeek: 'Thứ Bảy',
+                    time: '08:00 - 11:00',
+                    topic: 'Chuyên đề 9: Tổ hợp nâng cao',
+                    notes: 'Nguyên lý bao hàm loại trừ, hàm sinh. Bài tập khó.'
+                },
+                {
+                    date: '2025-07-13',
+                    dayOfWeek: 'Chủ Nhật',
+                    time: '14:00 - 17:00',
+                    topic: 'Chuyên đề 10: Hình học giải tích',
+                    notes: 'Các bài toán về đường thẳng, mặt phẳng trong không gian. Kiểm tra nhanh.'
+                },
+                {
+                    date: '2025-07-15',
+                    dayOfWeek: 'Thứ Ba',
+                    time: '08:00 - 11:00',
+                    topic: 'Tổng ôn 1: Lý thuyết và Bài tập tổng hợp',
+                    notes: 'Ôn tập kiến thức 5 chuyên đề đầu tiên. Chuẩn bị câu hỏi.'
+                },
+                {
+                    date: '2025-07-17',
+                    dayOfWeek: 'Thứ Năm',
+                    time: '14:00 - 17:00',
+                    topic: 'Tổng ôn 2: Lý thuyết và Bài tập tổng hợp',
+                    notes: 'Ôn tập kiến thức 5 chuyên đề tiếp theo. Đánh giá chung.'
+                },
+                {
+                    date: '2025-07-19',
+                    dayOfWeek: 'Thứ Bảy',
+                    time: '08:00 - 11:00',
+                    topic: 'Luyện đề 1: Đề thi thử số 1',
+                    notes: 'Làm quen với cấu trúc và áp lực thời gian. Cấm sử dụng tài liệu.'
+                },
+                {
+                    date: '2025-07-20',
+                    dayOfWeek: 'Chủ Nhật',
+                    time: '14:00 - 17:00',
+                    topic: 'Luyện đề 2: Đề thi thử số 2',
+                    notes: 'Rút kinh nghiệm và cải thiện tốc độ giải. Nộp bài cuối giờ.'
+                },
+                {
+                    date: '2025-07-22',
+                    dayOfWeek: 'Thứ Ba',
+                    time: '08:00 - 11:00',
+                    topic: 'Tổng kết & Định hướng',
+                    notes: 'Giải đáp thắc mắc và lời khuyên cuối cùng trước kỳ thi. Phát tài liệu tổng hợp.'
+                }
+            ];
+
+            const scheduleList = document.getElementById('schedule-list');
+            const progressDisplay = document.getElementById('progress-display');
+            const countdownDisplay = document.getElementById('countdown-display');
+
+            // Function to format date for Google Calendar (YYYYMMDDTHHMMSS)
+            function formatForGoogleCalendar(date, time) {
+                const [hourMinuteStart, hourMinuteEnd] = time.split(' - ');
+                const [startHour, startMinute] = hourMinuteStart.split(':');
+                const [endHour, endMinute] = hourMinuteEnd.split(':');
+
+                const startDateTime = new Date(`${date}T${startHour}:${startMinute}:00`);
+                const endDateTime = new Date(`${date}T${endHour}:${endMinute}:00`);
+
+                // Convert to UTC and format
+                const format = (d) => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
+                return `${format(startDateTime)}/${format(endDateTime)}`;
+            }
+
+            let completedSessions = 0;
+            let nextSession = null;
+
+            // A helper function to render or re-render the schedule elements
+            function renderSchedule() {
+                scheduleList.innerHTML = ''; // Clear existing content
+                completedSessions = 0;
+                nextSession = null;
+
+                const now = new Date(); // Get current time once for consistency in this render cycle
+
+                // First pass to determine completed sessions and the next upcoming session
+                scheduleData.forEach(session => {
+                    const sessionDateTime = new Date(session.date + 'T' + session.time.split(' - ')[0] + ':00');
+                    if (sessionDateTime < now) {
+                        completedSessions++;
+                    }
+                    if (sessionDateTime > now && (nextSession === null || sessionDateTime < nextSession.sessionDateTime)) {
+                        nextSession = { session: session, sessionDateTime: sessionDateTime };
+                    }
+                });
+
+                // Second pass to render elements with correct styling based on completion/next session status
+                scheduleData.forEach(session => {
+                    const sessionDateTime = new Date(session.date + 'T' + session.time.split(' - ')[0] + ':00');
+
+                    const sessionDiv = document.createElement('div');
+                    sessionDiv.className = 'relative mb-10 pl-8 sm:pl-12 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0 card-hover-transition card rounded-xl p-4 shadow-md';
+
+                    // Timeline point
+                    const timelineDot = document.createElement('div');
+                    timelineDot.className = 'timeline-dot absolute -left-1 sm:left-0 top-0 mt-1 w-5 h-5 rounded-full shadow-md z-10 border-2';
+                    sessionDiv.appendChild(timelineDot);
+
+                    // Checkmark for completed sessions
+                    if (sessionDateTime < now) {
+                        const checkmark = document.createElement('i');
+                        checkmark.className = 'fas fa-check-circle absolute -left-4 sm:-left-5 top-0 mt-1 text-green-500 text-2xl z-20 animate-fade-in';
+                        timelineDot.style.backgroundColor = '#22C55E'; // Green for completed dot
+                        sessionDiv.appendChild(checkmark);
+                    } else if (nextSession && sessionDateTime.getTime() === nextSession.sessionDateTime.getTime()) {
+                        // Special styling for the next upcoming session
+                        timelineDot.style.backgroundColor = '#F59E0B'; // Orange for next session
+                        timelineDot.classList.add('animate-pulse');
+                        sessionDiv.classList.add('border-blue-500', 'border-2', 'shadow-lg'); // Highlight next session card
+                    }
+
+
+                    // Content
+                    const dateElem = document.createElement('p');
+                    dateElem.className = 'text-sm text-gray-600 dark:text-gray-400 font-semibold mb-1';
+                    dateElem.textContent = `${session.dayOfWeek}, ${new Date(session.date).toLocaleDateString('vi-VN')} - ${session.time}`;
+                    sessionDiv.appendChild(dateElem);
+
+                    const topicElem = document.createElement('h4');
+                    topicElem.className = 'text-lg sm:text-xl font-bold text-blue-900 dark:text-blue-200 mb-2';
+                    topicElem.textContent = session.topic;
+                    sessionDiv.appendChild(topicElem);
+
+                    if (session.notes) {
+                        const notesElem = document.createElement('p');
+                        notesElem.className = 'text-md text-gray-700 dark:text-gray-300 leading-relaxed mb-3';
+                        notesElem.textContent = `Ghi chú: ${session.notes}`;
+                        sessionDiv.appendChild(notesElem);
+                    }
+
+                    // Add to Google Calendar button
+                    const googleCalendarLink = document.createElement('a');
+                    const eventTitle = encodeURIComponent(`HSG Quốc gia: ${session.topic}`);
+                    const eventDates = formatForGoogleCalendar(session.date, session.time);
+                    const eventDetails = encodeURIComponent(`Khóa học ôn thi Đội tuyển HSG Quốc gia - THPT Chu Văn An 2025. ${session.notes ? 'Ghi chú: ' + session.notes : ''}`);
+                    const eventLocation = encodeURIComponent('Phòng vi tính - Trường THPT Chu Văn An');
+
+                    googleCalendarLink.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${eventDates}&details=${eventDetails}&location=${eventLocation}&sf=true&output=xml`;
+                    googleCalendarLink.target = '_blank';
+                    googleCalendarLink.className = 'inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition-all duration-200 mt-2';
+                    googleCalendarLink.innerHTML = `<i class="far fa-calendar-plus mr-2"></i> Thêm vào Google Calendar`;
+                    sessionDiv.appendChild(googleCalendarLink);
+
+                    scheduleList.appendChild(sessionDiv);
+                });
+
+                // Update progress display
+                progressDisplay.textContent = `${completedSessions}/${scheduleData.length} buổi`;
+            }
+
+            // Countdown timer
+            function updateCountdown() {
+                if (nextSession) {
+                    const now = new Date().getTime();
+                    const distance = nextSession.sessionDateTime.getTime() - now;
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    if (distance < 0) {
+                        countdownDisplay.textContent = 'Đã bắt đầu!';
+                        // Rerender the schedule to update completed sessions and next session highlight
+                        renderSchedule();
+                    } else {
+                        countdownDisplay.textContent = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+                    }
+                } else {
+                    countdownDisplay.textContent = 'Khóa học đã kết thúc hoặc không có buổi học sắp tới.';
+                }
+            }
+
+            // Initial render and update
+            renderSchedule();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call to display immediately
+        });
+    </script>
+</body>
+</html>
